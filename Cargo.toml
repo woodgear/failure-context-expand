@@ -1,0 +1,16 @@
+[package]
+name = "failure-context-expand"
+version = "0.1.0"
+authors = ["wucong <1875486458@qq.com>"]
+edition = "2018"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = {version="0.15.32",features=["full"]}
+quote = "0.6.12"
+proc-macro2 = "0.4.28"
+
+[dev-dependencies]
+failure = "0.1.5"

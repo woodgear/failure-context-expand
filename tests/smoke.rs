@@ -1,6 +1,3 @@
-# failure-context-expand
-auto add function name into failure context
-```rs
 use failure::Error;
 use std::net::Ipv4Addr;
 
@@ -52,5 +49,3 @@ cause by: call c() err
 cause by: invalid IP address syntax"#
     )
 }
-
-```
