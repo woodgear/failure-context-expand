@@ -19,6 +19,12 @@ fn c() -> Result<Ipv4Addr, Error> {
     Ok(res)
 }
 
+#[failure_context_expand::fce]
+fn argc<S: ToString>(ip: S) -> Result<Ipv4Addr, Error> {
+    let res: Ipv4Addr = ip.to_string().parse()?;
+    return Ok(res);
+}
+
 pub trait FailureExt {
     fn pretty_log(&self) -> String;
 }
@@ -39,13 +45,24 @@ impl FailureExt for failure::Error {
 }
 
 #[test]
-fn works() {
+fn test_for_chain() {
     let e = a().err().unwrap();
+    println!("chain err {}", e.pretty_log());
     assert_eq!(
         e.pretty_log(),
         r#"call a() err
 cause by: call b() err
 cause by: call c() err
 cause by: invalid IP address syntax"#
-    )
+    );
+}
+#[test]
+fn test_for_args() {
+    let e = argc("127.0.0.x".to_string()).err().unwrap();
+    assert_eq!(
+        e.pretty_log(),
+        r#"call argc() err
+cause by: invalid IP address syntax"#
+    );
+    println!("{}", e.pretty_log());
 }
